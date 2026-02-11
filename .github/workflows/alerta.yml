@@ -19,14 +19,14 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restaurar dependencias
-      run: dotnet restore
+      run: dotnet restore ConsoleApp2/ConsoleApp2.csproj
 
     - name: Compilar proyecto
-      run: dotnet build --no-restore
+      run: dotnet build ConsoleApp2/ConsoleApp2.csproj --no-restore
 
     - name: Ejecutar programa
-      run: dotnet run
+      run: dotnet run --project ConsoleApp2/ConsoleApp2.csproj
 
     - name: Enviar notificación a ntfy
       run: |
-        curl -d "✅ Se hizo push al repositorio main y el proyecto C# se ejecutó correctamente" https://ntfy.sh/devops-itla
+        curl -d "✅ Push a main: Proyecto C# ejecutado correctamente" https://ntfy.sh/devops-itla
