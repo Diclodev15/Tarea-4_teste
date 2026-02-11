@@ -1,35 +1,32 @@
-ame: Alerta a ntfy al hacer push a main
+name: Alerta CI CSharp
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  notificar:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout del repositorio (Eliam Diclo Tarea 4)
-        uses: actions/checkout@v4
+    - name: Clonar repositorio
+      uses: actions/checkout@v4
 
-      # (Opcional) Compilar y probar el proyecto C# para asegurar que buildea antes de notificar
-      - name: Configurar .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'   # Ajusta a tu versión (6.x, 7.x, 8.x)
+    - name: Configurar .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
 
-      - name: Restaurar dependencias
-        run: dotnet restore || true   # Si no hay dependencias, no falla
+    - name: Restaurar dependencias
+      run: dotnet restore
 
-      - name: Compilar
-        run: dotnet build --configuration Release --no-restore
+    - name: Compilar proyecto
+      run: dotnet build --no-restore
 
-      # Enviar notificación a ntfy.sh/devops-itla
-      - name: Enviar notificación a ntfy
-        run: |
-          MENSAJE="✅ Nuevo push a main en $GITHUB_REPOSITORY por $GITHUB_ACTOR. Commit: $GITHUB_SHA"
-          curl -s \
-            -H "Title: CI Notificación" \
-            -H "Priority: high" \
-            -H "Tags: rocket" \
-            -d "$MENSAJE" \
-            https://ntfy.sh/devops-itla
+    - name: Ejecutar programa
+      run: dotnet run
+
+    - name: Enviar notificación a ntfy
+      run: |
+        curl -d "✅ Se hizo push al repositorio main y el proyecto C# se ejecutó correctamente" https://ntfy.sh/devops-itla
