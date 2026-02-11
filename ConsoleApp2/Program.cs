@@ -4,6 +4,6 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Pepe El Grillo");
+       Console.WriteLine("Hola mundo desde C# con GitHub Actions 🚀");
     }
 }
